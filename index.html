@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CATCH THE METEOR</title>
+</head>
+<style>
+    html{
+    color: white;
+    background-image: url(img/galaxia.jpg);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+}
+h1 {
+    text-align: center;
+    font-size: 50px;
+    color: #f10eb9;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    text-shadow: #7d7b7e 0.3em 0.3em 0.4em;
+}
+
+.boton_1{
+    text-align: center;
+    text-decoration: none;
+    padding: 5px;
+    padding-left: 40px;
+    padding-right: 40px;
+    font-family: helvetica;
+    font-weight: 300;
+    font-size: 25px;
+    font-style: italic;
+    color: #f10eb9;
+    background-color: #2e0d41;
+    border-radius: 15px;
+    border: 3px double #f10eb9;
+  }
+  .boton_1:hover{
+    opacity: 0.6;
+    text-decoration: none;
+  }
+
+  footer
+{
+    margin-top:400px;
+    width:100%;
+    height:30px;
+    background-color:rgba(5, 0, 0, 0);
+}
+
+p{
+    text-align: center;
+    font-size: 25pt;
+    color: #f7ca06;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+</style>
+<body>
+<h1>BIENVENIDO A CATCH THE METEOR</h1><br><br>    
+<center>
+    <button class="boton_1" onclick="rules()">Instrucciones</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a class="boton_1" href="catchmeteor.html">Iniciar</a>
+</center>
+<footer>
+    <p>
+      &copy; 2021
+      Moreno Olarte Antonio de Jesus
+    </p>
+</footer>
+</body>
+<script>
+   function rules(){
+       confirm("INSTRUCIONES DEL JUEGO \n1.Encuentra el Meteroro  con el cual realicez un choque.\n2. Mover la Nave con las flechas de teclado ⬆⬅⬇➡.\n3. Divierte y disfruta el juego Catch the Meteor");
+   }
+
+   function aleatorio(menor, mayor) {
+      return menor + Math.floor( Math.random() *
+        (mayor - menor + 1));
+    }
+    class SeMueve {
+      muévete() {
+        throw new Error("intf");
+      }
+    }
+   class EstrellaWeb
+      extends HTMLElement {
+      connectedCallback() {
+        this.x = aleatorio(0,Math.floor(window.innerWidth));
+        this.y = aleatorio(0,Math.floor(4*window.innerHeight/7));
+        this.innerHTML = "🪐";
+        this.style.position = "fixed";
+        this.style.fontSize = "3.5rem";
+        this.style.right = `${this.x}px`;
+        this.style.bottom = `${this.y}px`;
+      }
+      muévete() {
+        this.x = (this.x + 30) % window.innerWidth;
+        this.style.left = `${this.x}px`;
+      }
+    }
+    customElements.define("estrella-web", EstrellaWeb);
+ 
+    const figuras =
+     [new EstrellaWeb(),
+      new EstrellaWeb(),
+      new EstrellaWeb(),
+      new EstrellaWeb(),
+      new EstrellaWeb(),
+      new EstrellaWeb(),
+      new EstrellaWeb(),
+      new EstrellaWeb(),
+      new EstrellaWeb()];
+
+    for (let fig of figuras) {
+      document.body.append(fig);
+    }
+    function mueve() {
+      for (var fig of figuras) {
+        fig.muévete();
+      }
+    }
+
+    setInterval(mueve,150);
+
+    
+</script>
+</html>

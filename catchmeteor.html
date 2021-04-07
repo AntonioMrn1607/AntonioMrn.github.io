@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/estilos.css">
+  <title>CATCH THE METEOR</title>
+</head>
+
+<body>
+  <div id="lienzo">
+    <table>
+      <th><h2 id="puntuaje"></h2></th>
+      <th><h1>CATCH THE METEOR</h1></th>
+      <th><a class="bEstilo" href="index.html">EXIT</a></th>
+    </table>
+  </div>
+    <img src="img/nave.png" id="nave" class="sprite">
+    <img src="img/meteorito.png" id="hoyo"  class="sprite">
+    <img src="img/meteorito.png" id="hoyo1" class="sprite">
+    <img src="img/meteorito.png" id="hoyo2" class="sprite">
+    <img src="img/meteorito.png" id="hoyo3" class="sprite">
+    <img src="img/meteorito.png" id="hoyo4" class="sprite">
+    <img src="img/meteorito.png" id="hoyo5" class="sprite">
+    <img src="img/meteorito.png" id="hoyo6" class="sprite">
+    <img src="img/meteorito.png" id="hoyo7" class="sprite">
+    <img src="img/meteorito.png" id="hoyo8" class="sprite">
+  <footer>
+    <p>
+      &copy; 2021
+      Moreno Olarte Antonio de Jesus
+    </p>
+  </footer>
+</body>
+<script>
+
+  document.addEventListener("keydown", function (e) {
+    if (e.keyCode == 39) {
+      avanza();
+    }
+    if (e.keyCode == 37) {
+      retrocede();
+    }
+    if (e.keyCode == 38) {
+      arriba();
+    }
+    if (e.keyCode == 40) {
+      abajo();
+    }
+  })
+
+  let puntuaje = document.getElementById('puntuaje');
+  let contador = 0;
+  let puntos = 0;
+  let movimiento = 0;
+  let verifica = false;
+
+  if (verifica == false) {
+    contador = setInterval(function () {
+      puntos += 1;
+      puntuaje.innerHTML = "Score: " + puntos;
+    }, 100);
+    verifica = true;
+  } else {
+    verifica = false;
+  }
+
+  document.getElementById('puntuaje').innerHTML = "Score: " + puntos;
+
+
+  let yBase;
+  let xBase;
+  let xMenor;
+  let xMayor;
+  let yMenor;
+  let yMayor;
+
+  const VELOCIDAD = 30;
+  actualiza();
+  let x = xMenor;
+  let y = yMenor;
+  dibuja();
+  function retrocede() {
+    actualiza();
+    if (x > xMenor) {
+      x -= VELOCIDAD;
+    }
+    dibuja();
+  }
+  function avanza() {
+    actualiza();
+    if (x < xMayor) {
+      x += VELOCIDAD;
+    }
+    dibuja();
+  }
+  function arriba() {
+    actualiza();
+    if (y > yMenor) {
+      y -= VELOCIDAD;
+    }
+    dibuja();
+  }
+  function abajo() {
+    actualiza();
+    if (y < yMayor) {
+      y += VELOCIDAD
+    }
+    dibuja();
+  }
+
+  function dibuja() {
+     nave.style = `left: ${x}px; bottom: ${yBase}px; top: ${y}px; bottom: ${xBase}px;` 
+  }
+
+  function actualiza() {
+    yBase = window.innerHeight / 10;
+    xMenor = window.innerWidth / 20;
+    xMayor = 5 * window.innerWidth / 6;
+    xBase = window.innerHeight / 10;
+    yMenor = window.innerWidth / 10;
+    yMayor = 4 * window.innerWidth / 10;
+  }
+
+  setInterval(choque,70);
+
+  function choque() {
+
+        hoyo.style.right =`${4 * window.innerWidth / 25 }px`;
+        hoyo.style.bottom = `${window.innerHeight / 4}px`;
+        hoyo1.style.right =`${4 * window.innerWidth / 10 }px`;
+        hoyo1.style.bottom = `${window.innerHeight / 4}px`;
+        hoyo2.style.right =`${4 * window.innerWidth / 6 }px`;
+        hoyo2.style.bottom = `${window.innerHeight /4}px`;
+        hoyo3.style.right =`${4 * window.innerWidth / 8  }px`;
+        hoyo3.style.bottom = `${window.innerHeight /2}px` 
+        hoyo4.style.right =`${4 * window.innerWidth / 18  }px`;
+        hoyo4.style.bottom = `${window.innerHeight /  2}px`;        
+        hoyo5.style.right =`${4 * window.innerWidth / 5  }px`;
+        hoyo5.style.bottom = `${window.innerHeight / 2}px`;  
+        hoyo6.style.right =`${window.innerWidth / 8  }px`;
+        hoyo6.style.bottom = `${5 * window.innerHeight / 7}px`;  
+        hoyo7.style.right =`${window.innerWidth / 3  }px`;
+        hoyo7.style.bottom = `${5 * window.innerHeight / 7}px`;
+        hoyo8.style.right =`${window.innerWidth / 2 }px`;
+        hoyo8.style.bottom = `${5 * window.innerHeight / 7}px`;    
+        nave.style.left = `${x}px`;
+        nave.style.bottom = `${y}px`;
+
+        if (seTocan(nave, hoyo)) {
+          hoyo.style.backgroundColor ="green";
+          clearInterval(contador);
+          location.reload();
+          alert("Felicidades Ganaste tu Score fue "+ puntos);
+        } else {
+          x = (x +30) % window.innerWidth;
+        }
+      }
+   function seTocan(q,w){
+    const rE1 =  q.getBoundingClientRect();
+    const rE2 =  w.getBoundingClientRect();
+      return (rE1.right >= rE2.left &&
+              rE1.left <= rE2.right &&
+              rE1.top <= rE2.bottom &&
+              rE1.bottom >= rE2.top); }
+
+
+
+    function aleatorio(menor, mayor) {
+      return menor + Math.floor( Math.random() *
+        (mayor - menor + 1));
+    }
+  class SeMueve {
+      muévete() {
+        throw new Error("intf");
+      }
+    }
+   class LunaWeb
+      extends HTMLElement {
+      connectedCallback() {
+        this.a = aleatorio(0,Math.floor(window.innerWidth));
+        this.b = aleatorio(0,Math.floor(4*window.innerHeight/6));
+        this.innerHTML = "<img src='img/meteorito.png'>";
+        this.style.position = "fixed";
+        this.style.fontSize = "5rem";
+        this.style.right = `${this.a}px`;
+        this.style.bottom = `${this.b}px`;
+        this.id = "luna1";
+          
+
+      }
+      muévete() {
+        this.a = (this.a  + 30) % window.innerWidth;
+        this.style.right = `${this.a}px`;
+      }
+    }
+    customElements.define("luna-web", LunaWeb);
+
+ 
+    const figuras = [new LunaWeb(), new LunaWeb(), new LunaWeb(),
+                     new LunaWeb(), new LunaWeb(), new LunaWeb(),
+                     new LunaWeb(), new LunaWeb(), new LunaWeb(),
+                     new LunaWeb(), new LunaWeb(), new LunaWeb(),];
+
+    for (let fig of figuras) {  document.body.append(fig);} 
+    function mueve() {
+      for (let fig of figuras) { fig.muévete();
+       } }  
+
+    setInterval(mueve,70); 
+
+</script>
+
+</html>
